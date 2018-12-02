@@ -1,0 +1,40 @@
+version: '3.3'
+services:
+
+  odoo:
+    container_name: "odoo$ODOO_VERSION"
+    command: start
+    environment:
+      - ADDONS_REPO=myrepo $ODOO_VERSION 
+      - FETCH_OCA_DEPENDENCIES=True
+      - ODOO_ADMIN_PASSWD=$STRONG_ODOO_MASTER_PASSWORD 
+      - ODOO_DB_HOST=postgres
+      - ODOO_DB_PASSWORD=$STRONG_PG_ODOO_PASSWORD 
+      - ODOO_DB_USER="odoo$ODOO_VERSION"
+      - TARGET_UID=$UID
+    image: elicocorp/odoo:$ODOO_VERSION
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+      - "8169:8169"
+      - "8172:8172"
+    volumes:
+      - ./volumes/odoo/addons:/opt/odoo/additional_addons
+      - ./volumes/odoo/filestore:/opt/odoo/data/filestore
+      #- ./volumes/odoo/letsencrypt:/opt/odoo/data/letsencrypt
+      - ./volumes/odoo/sessions:/opt/odoo/data/sessions
+      - ./volumes/odoo/ssh:/opt/odoo/ssh:ro
+      - ./volumes/odoo/scripts:/opt/scripts
+      
+  postgres:
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=$STRONG_PG_SUPERUSER_PASSWORD
+    image: postgres:10
+    user: $UID:$UID
+    volumes:
+      - ./volumes/postgres/data:/var/lib/postgresql/data
+      - ./volumes/postgres/init:/docker-entrypoint-initdb.d
+      - /etc/passwd:/etc/passwd:ro
+
