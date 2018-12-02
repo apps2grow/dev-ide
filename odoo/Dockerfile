@@ -21,9 +21,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
 
 
 
-CMD /usr/bin/pycharm-community
-ENTRYPOINT [ "/usr/bin/dumb-init", "/opt" ]
-ENTRYPOINT [ "/usr/bin/dumb-init", "/usr/bin/pycharm-community" ]
+#CMD /usr/bin/pycharm-community
+#ENTRYPOINT [ "/usr/bin/dumb-init", "/opt" ]
+#ENTRYPOINT [ "/usr/bin/dumb-init", "/usr/bin/pycharm-community" ]
 
 #OCA/servertools letsencrypt
 # apt install openssl

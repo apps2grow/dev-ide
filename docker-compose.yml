@@ -1,40 +1,54 @@
-version: '3.3'
+version: '3.5'
+
+networks:
+  odoo-postgres:
+
 services:
 
   odoo:
-    container_name: "odoo$ODOO_VERSION"
+    container_name: "odoo${ODOO_VERSION}"
     command: start
     environment:
-      - ADDONS_REPO=myrepo $ODOO_VERSION 
+      #- ADDONS_REPO=myrepo ${ODOO_VERSION} 
+      - DISPLAY
       - FETCH_OCA_DEPENDENCIES=True
-      - ODOO_ADMIN_PASSWD=$STRONG_ODOO_MASTER_PASSWORD 
+      - ODOO_ADMIN_PASSWD=STRONG_ODOO_MASTER_PASSWORD 
       - ODOO_DB_HOST=postgres
-      - ODOO_DB_PASSWORD=$STRONG_PG_ODOO_PASSWORD 
-      - ODOO_DB_USER="odoo$ODOO_VERSION"
+      - ODOO_DB_PASSWORD=STRONG_PG_ODOO_PASSWORD 
+      - ODOO_DB_USER=odoo${ODOO_VERSION}
       - TARGET_UID=$UID
-    image: elicocorp/odoo:$ODOO_VERSION
+    image: elicocorp/odoo:${ODOO_VERSION}
+    networks:
+      odoo-postgres:
+        aliases:
+          - odoo${ODOO_VERSION}
     ports:
       - "8069:8069"
       - "8072:8072"
       - "8169:8169"
       - "8172:8172"
     volumes:
-      - ./volumes/odoo/addons:/opt/odoo/additional_addons
-      - ./volumes/odoo/filestore:/opt/odoo/data/filestore
-      #- ./volumes/odoo/letsencrypt:/opt/odoo/data/letsencrypt
-      - ./volumes/odoo/sessions:/opt/odoo/data/sessions
-      - ./volumes/odoo/ssh:/opt/odoo/ssh:ro
-      - ./volumes/odoo/scripts:/opt/scripts
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
+      - ${ODOO_ROOT}/${ODOO_VERSION}/addons:/opt/odoo/additional_addons
+      - ${ODOO_ROOT}/${ODOO_VERSION}/filestore:/opt/odoo/data/filestore
+      - ${ODOO_ROOT}/${ODOO_VERSION}/letsencrypt:/opt/odoo/data/letsencrypt
+      - ${ODOO_ROOT}/${ODOO_VERSION}/sessions:/opt/odoo/data/sessions
+      - ${ODOO_ROOT}/${ODOO_VERSION}/ssh:/opt/odoo/ssh:ro
+      - ${ODOO_ROOT}/${ODOO_VERSION}/scripts:/opt/scripts
       
   postgres:
     container_name: postgres
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=$STRONG_PG_SUPERUSER_PASSWORD
+      - POSTGRES_PASSWORD=STRONG_PG_SUPERUSER_PASSWORD
     image: postgres:10
-    user: $UID:$UID
+    networks:
+      odoo-postgres:
+        aliases:
+          - postgres
+    user: ${UID}:${UID}
     volumes:
-      - ./volumes/postgres/data:/var/lib/postgresql/data
-      - ./volumes/postgres/init:/docker-entrypoint-initdb.d
+      - ${ODOO_ROOT}/postgres/data:/var/lib/postgresql/data
+      - ${ODOO_ROOT}/postgres/init:/docker-entrypoint-initdb.d
       - /etc/passwd:/etc/passwd:ro
 
