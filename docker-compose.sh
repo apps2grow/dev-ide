@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ODOO_ROOT="$HOME/odoo"
+export ODOO_ROOT="$HOME/apps2grow-dev"
 export ODOO_VERSION="10.0"
 export UID
 

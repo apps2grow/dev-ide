@@ -1,1 +1,1 @@
-# pycharm-odoo-docker
+# Apps2GROW development IDE
