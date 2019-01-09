@@ -1,4 +1,4 @@
-ARG image=elicocorp/odoo:10.0
+ARG image=elicocorp/odoo:12.0
 FROM $image
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
  && apt-get update && apt-get install -y --no-install-recommends \
       openjdk-11-jdk \
       pycharm-community \
-      python-pip \
- && yes | pip install \
+      python3-pip \
+ && yes | pip3 install \
       "cachetools>=2.0.1,<3.0.0" `#OCA/connector` \
       numpy                      `#apps2grow/apps2grow` \
       pandas                     `#apps2grow/apps2grow` \
