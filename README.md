@@ -8,7 +8,7 @@
 - Files
   - ~/.ssh/id_rsa
   - ~/.ssh/letsencrypt.key
-
+- PostgreSQL must be uninstalled! 
 
 ## Create docker image for odoo-pycharm
 ```bash
@@ -53,4 +53,5 @@ docker exec -it odoo12.0 /bin/bash
 # Check the database with psql
 sudo apt install postgresql-client
 psql -h localhost
+
 ```
