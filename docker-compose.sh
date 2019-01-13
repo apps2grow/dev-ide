@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ODOO_ROOT="$HOME/apps2grow-dev"
+export ODOO_ROOT="$HOME/apps2grow-dev-12"
 export ODOO_VERSION="12.0"
 export UID
 
@@ -27,6 +27,8 @@ if [ ! -d $ODOO_ROOT ]; then
 
     #sudo chown $UID:$UID -R $ODOO_ROOT/postgres
 
+    cp ./odoo/migrate.sh $ODOO_ROOT/$ODOO_VERSION/addons
+    cp ./odoo/oca_dependencies.txt $ODOO_ROOT/$ODOO_VERSION/addons
     cp ./odoo/odoo.conf $ODOO_ROOT/$ODOO_VERSION/etc
     cp ./odoo/startup.sh $ODOO_ROOT/$ODOO_VERSION/scripts
     cp ./odoo/known_hosts $ODOO_ROOT/$ODOO_VERSION/ssh

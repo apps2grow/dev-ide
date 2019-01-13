@@ -16,7 +16,10 @@ git clone https://github.com/apps2grow/dev-ide 12.0
 cd dev-ide
 sudo docker build -t odoo-pycharm:12.0 -f ./odoo/Dockerfile .
 ```
-
+Edit docker-compose.yml
+```
+image: odoo-pycharm:12.0
+```
 ## Run Docker 
 (as regular user, not as root, otherwise pycharm UI will fail)
 ```bash

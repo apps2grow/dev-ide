@@ -8,23 +8,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
  && add-apt-repository ppa:openjdk-r/ppa \
  && add-apt-repository ppa:mystic-mirage/pycharm \
  && apt-get update && apt-get install -y --no-install-recommends \
-      openjdk-11-jdk \
+      openjdk-11-jdk             `#pycharm` \
+      openssl                    `#OCA/servertools letsencrypt` \
       pycharm-community \
       python3-pip \
  && yes | pip3 install \
+      acme-tiny                  `#OCA/servertools letsencrypt` \
       "cachetools>=2.0.1,<3.0.0" `#OCA/connector` \
+      IPy                        `#OCA/servertools letsencrypt` \
       numpy                      `#apps2grow/apps2grow` \
+      openupgradelib \
       pandas                     `#apps2grow/apps2grow` \
       pyxb                       `#apps2grow/apps2grow` \
  && :
-
-
-
-
-#CMD /usr/bin/pycharm-community
-#ENTRYPOINT [ "/usr/bin/dumb-init", "/opt" ]
-#ENTRYPOINT [ "/usr/bin/dumb-init", "/usr/bin/pycharm-community" ]
-
-#OCA/servertools letsencrypt
-# apt install openssl
-# pip install acme-tiny IPy
